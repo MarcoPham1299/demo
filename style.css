@@ -3,6 +3,10 @@
     font-size: 11px;
 }
 
+.main-box {
+    margin: 50px;
+}
+
 table {
     page-break-inside: auto;
     border-collapse: collapse;
