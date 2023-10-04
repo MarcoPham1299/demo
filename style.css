@@ -7,6 +7,10 @@
     margin: 50px;
 }
 
+#cke_contents {
+  height: 350px !important;
+}
+
 table {
     page-break-inside: auto;
     border-collapse: collapse;

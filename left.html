@@ -4,13 +4,14 @@
   <title>Two-Column Layout with CKEditor and Display</title>
   <script src="https://cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
   <script src="js/spectrum/spectrum.js"></script>
+  <script src="js/justify/plugin.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
   <div class="main-box">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6" style="height: 800px;">
         <textarea id="editor" name="editor">
             <div id="kv-cke-temp">
                 <style type="text/css">.printBox {
@@ -153,13 +154,25 @@
   </div>
 
   <script>
-    CKEDITOR.replace('editor')
-    CKEDITOR.instances.editor.on('change', function() {
-      var editorContent = CKEDITOR.instances.editor.getData();
-      var replacedContent = replaceVariables(editorContent);
-      $('#display').html(replacedContent);
+    CKEDITOR.plugins.addExternal( 'justify', '/plugins/justify/', 'plugin.js' );
+    CKEDITOR.replace('editor', {
+    extraPlugins: 'justify',
+    on: {
+        instanceReady: function (evt) {
+        previewContent();
+        CKEDITOR.instances.editor.on('change', function() {
+            previewContent();
+        });
+        }
+    },
     });
 
+    function previewContent() {
+        var editorContent = CKEDITOR.instances.editor.getData();
+        var replacedContent = replaceVariables(editorContent);
+        $('#display').html(replacedContent);
+    }
+    
     function replaceVariables(content) {
       var variables = {
         "{Logo_Cua_Hang}": "<img src='images/logo.png'>",
